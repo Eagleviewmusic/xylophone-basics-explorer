@@ -1,0 +1,26 @@
+{
+  "about": "Visual Musical Minds colours for Xylophone Basics. 'fla' = read from the user's Animate files (DEGA, The Everything File, Counter); 'derived' = never drawn in any .fla (no C or B plank, no C/F/B notehead), made by the same rules — change freely.",
+  "rules": {
+    "bar": "the plank's colour layer: unlit = 'barUnlit' (else 'bar') at 'barAlpha' (0.588; E 1, C and A 0.8) over the wood, lit = 'barLit' at 1",
+    "barLetter": "Myriad Pro Bold on the plank: unlit = barLetter, lit = white",
+    "note": "notehead + stem (+ beam end): unlit = note, lit = noteLit",
+    "noteLetter": "Baloo Thambi 2 SemiBold in the head: unlit = noteLetter, lit = white",
+    "line": "a staff line in its note's colour",
+    "tracker": "the side tracker, bottom up, one per example"
+  },
+  "barAlpha": 0.588,
+  "letters": {
+    "C": { "source": "derived (tracker red); unlit bright red at 0.8, the user's pick 2026-10-17 (at 0.588 it read like the D)", "barUnlit": "#F00000", "barAlpha": 0.8, "bar": "#CC0000", "barLit": "#CC0000", "barLetter": "#7A0000", "note": "#FF4D4D", "noteLit": "#CC0000", "noteLetter": "#A30000", "line": "#CC0000" },
+    "D": { "source": "fla", "bar": "#FF6600", "barLit": "#FF6600", "barLetter": "#993C00", "note": "#FF9933", "noteLit": "#FF6500", "noteLetter": "#CC5100", "line": "#FF6500" },
+    "E": { "source": "fla", "barAlpha": 1, "bar": "#FFFF00", "barLit": "#C9C900", "barLetter": "#999900", "note": "#E5E500", "noteLit": "#B2B200", "noteLetter": "#939300", "line": "#C6C600" },
+    "F": { "source": "bar from The Everything File; the rest derived", "bar": "#339900", "barLit": "#339900", "barLetter": "#1F5C00", "note": "#66CC33", "noteLit": "#339900", "noteLetter": "#297A00", "line": "#339900" },
+    "G": { "source": "fla", "bar": "#009999", "barLit": "#009999", "barLetter": "#006666", "note": "#00CCCC", "noteLit": "#009999", "noteLetter": "#007F7F", "line": "#009999" },
+    "A": { "source": "fla; unlit = the A note's blue at 0.8, the user's pick 2026-10-17 (at 0.588 the deep blue read purple)", "barUnlit": "#0099FF", "barAlpha": 0.8, "bar": "#0000CC", "barLit": "#0000CC", "barLetter": "#000066", "note": "#0099FF", "noteLit": "#003366", "noteLetter": "#000099", "line": "#0099FF" },
+    "B": { "source": "derived (tracker purple)", "bar": "#CC00FF", "barLit": "#9900CC", "barLetter": "#5C0073", "note": "#E066FF", "noteLit": "#9900CC", "noteLetter": "#7A00A3", "line": "#9900CC" }
+  },
+  "wood": { "source": "fla", "base": "#B06426", "dark": "#614229", "pale": "#FECF8D", "grain": "#A1724D" },
+  "ink": { "source": "fla", "rest": "#003366", "restLit": "#990000", "barline": "#333333", "plainLine": "#666666" },
+  "tracker": { "source": "fla", "off": "#666666", "stroke": "#333333", "on": ["#CC0000", "#FF6600", "#FFFF00", "#339900", "#009999", "#0000CC", "#CC00FF"] },
+  "countdown": { "source": "fla", "off": "#CCCCCC", "ready": "#FFFF00", "count": "#33CC00", "stroke": "#333333", "number": "#FFFFFF" },
+  "wordmark": { "source": "fla", "Visual": "#CC0000", "Musical": "#009900", "Minds": "#0000FF" }
+}

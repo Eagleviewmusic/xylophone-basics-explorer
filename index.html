@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Xylophone Basics Explorer</title>
+  <meta name="description" content="Play-along xylophone lessons from Visual Musical Minds — one for each Xylophone Basics video.">
+  <link rel="icon" href="app/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="app/lib/fonts/fonts.css">
+  <style>
+    :root { --ink: #1f2430; --soft: #667085; --line: #e3e6ec; --bg: #fafaf7; --accent: #2b6cb0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    header { padding: 28px 16px 8px; text-align: center; }
+    h1 { margin: 0; font: 400 clamp(30px, 6vw, 54px)/1.05 'Luckiest Guy', system-ui, sans-serif; letter-spacing: .5px; }
+    h1 .r { color: #CC0000; } h1 .o { color: #FF6600; } h1 .y { color: #C9C900; } h1 .g { color: #339900; }
+    h1 .t { color: #009999; } h1 .b { color: #0000CC; } h1 .p { color: #CC00FF; }
+    .by { margin: 6px 0 0; color: var(--soft); }
+    .by b { font: 400 17px 'Luckiest Guy', system-ui, sans-serif; letter-spacing: .3px; }
+    .by .v { color: #CC0000; } .by .m { color: #009900; } .by .n { color: #0000FF; }
+    main { max-width: 1120px; margin: 0 auto; padding: 18px 16px 48px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .04); transition: box-shadow .15s, transform .15s; }
+    .card:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, .1); transform: translateY(-2px); }
+    .card a.open { color: inherit; text-decoration: none; display: block; }
+    .cover { aspect-ratio: 16 / 9; background: #fff center / cover no-repeat; border-bottom: 1px solid var(--line); }
+    .info { padding: 10px 14px 4px; }
+    .info h2 { margin: 0; font-size: 17px; }
+    .info p { margin: 2px 0 0; color: var(--soft); font-size: 13px; }
+    .tools { display: flex; gap: 8px; padding: 8px 14px 12px; margin-top: auto; }
+    .tools button, .tools a { font: inherit; font-size: 13px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 7px; background: #fff;
+      color: var(--ink); cursor: pointer; text-decoration: none; }
+    .tools button:hover, .tools a:hover { border-color: var(--accent); }
+    .empty { text-align: center; color: var(--soft); padding: 40px 0; }
+    footer { text-align: center; color: var(--soft); font-size: 12px; padding: 0 16px 28px; }
+    .how { max-width: 680px; margin: 30px auto 0; color: var(--soft); font-size: 13px; }
+    .how summary { cursor: pointer; color: var(--ink); }
+  </style>
+</head>
+<body>
+  <!-- Made by the Xylophone Basics Creation Studio ("Make an app…") — don't edit: it's written again each time. -->
+  <header>
+    <h1><span class="r">X</span><span class="o">y</span><span class="y">l</span><span class="g">o</span><span class="t">p</span><span class="b">h</span><span class="p">o</span><span class="r">n</span><span class="o">e</span>
+      <span class="y">B</span><span class="g">a</span><span class="t">s</span><span class="b">i</span><span class="p">c</span><span class="r">s</span>
+      Explorer</h1>
+    <p class="by">Play along with <b><span class="v">Visual</span> <span class="m">Musical</span> <span class="n">Minds</span></b> — or play the bars yourself</p>
+  </header>
+  <main>
+    <div class="grid">
+      <article class="card">
+        <a class="open" href="lessons/cde/"><div class="cover" style="background-image:url('lessons/cde/cover.jpg')"></div>
+          <div class="info"><h2>Xylophone Basics: CDE</h2><p>6 exercises · 3:04</p></div></a>
+        <div class="tools"><a href="lessons/cde/">▶ Play</a><button type="button" data-copy="lessons/cde/">Copy link</button></div>
+      </article>
+    </div>
+    <details class="how">
+      <summary>Putting a lesson in Google Sites</summary>
+      <p>Press <b>Copy link</b> on a lesson, then in Google Sites: <b>Insert → Embed → By URL</b>, paste, and make the box wide
+        (16:9 fits best). Add <code>?ex=3</code> to the link to open on exercise 3, or <code>?mallet=off</code> to start with the
+        student playing.</p>
+    </details>
+  </main>
+  <footer>1 lesson · updated 2026-10-19</footer>
+  <script>
+    document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
+      const url = new URL(b.dataset.copy, location.href).href;
+      try { await navigator.clipboard.writeText(url); b.textContent = 'Copied ✓'; }
+      catch (e) { prompt('The lesson’s link:', url); }
+      setTimeout(() => { b.textContent = 'Copy link'; }, 2000);
+    });
+  </script>
+</body>
+</html>

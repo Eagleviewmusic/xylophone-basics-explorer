@@ -1,0 +1,230 @@
+{
+ "format": 1,
+ "kind": "xylophone-basics-lesson",
+ "id": "cde",
+ "title": "Xylophone Basics: CDE",
+ "made": "2026-10-19T00:00:18.618Z",
+ "first": "2026-10-19T00:00:18.618Z",
+ "project": {
+  "series": "xylophone-basics",
+  "title": "Xylophone Basics: CDE",
+  "slides": [
+   {
+    "music": "E D CC D"
+   },
+   {
+    "music": "EE D CC D"
+   },
+   {
+    "music": "D EE DD C"
+   },
+   {
+    "music": "CD E ED C"
+   },
+   {
+    "music": "C ED ED E"
+   },
+   {
+    "music": "EC DE r C"
+   },
+   {
+    "music": "r D EC D"
+   }
+  ],
+  "format": 1,
+  "tempo": {
+   "bpm": 60
+  },
+  "light": {
+   "gap": 0.2
+  },
+  "xylophone": {
+   "base": 4,
+   "bars": [
+    "C4",
+    "D4",
+    "E4"
+   ],
+   "gaps": true,
+   "nudge": {},
+   "mallet": true
+  },
+  "staff": {
+   "lines": "used",
+   "colour": "notes"
+  },
+  "order": [
+   {
+    "type": "logo",
+    "bars": 1,
+    "transition": {
+     "style": "cut",
+     "beats": 0
+    },
+    "layout": {}
+   },
+   {
+    "type": "title",
+    "beats": 16,
+    "line": "Xylophone Basics:",
+    "demo": 0,
+    "transition": {
+     "style": "outin",
+     "beats": 2
+    },
+    "layout": {}
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     1
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 17
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     2
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 36
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     3
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 37
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     4
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 85
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     5
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 109
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     6
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 132
+   },
+   {
+    "type": "end",
+    "seconds": 20,
+    "lines": [
+     "Thanks for playing along"
+    ],
+    "show": "both",
+    "transition": {
+     "style": "cut",
+     "beats": 0
+    },
+    "layout": {},
+    "mallet": "tap"
+   }
+  ],
+  "stageLayout": {},
+  "app": {
+   "id": "cde",
+   "mode": "recording",
+   "voice": "marimba"
+  }
+ },
+ "timing": null,
+ "total": 184,
+ "chapters": [
+  {
+   "t": 0,
+   "name": "Intro",
+   "kind": "intro"
+  },
+  {
+   "t": 20,
+   "name": "Example 1",
+   "kind": "example",
+   "n": 1
+  },
+  {
+   "t": 44,
+   "name": "Example 2",
+   "kind": "example",
+   "n": 2
+  },
+  {
+   "t": 68,
+   "name": "Example 3",
+   "kind": "example",
+   "n": 3
+  },
+  {
+   "t": 92,
+   "name": "Example 4",
+   "kind": "example",
+   "n": 4
+  },
+  {
+   "t": 116,
+   "name": "Example 5",
+   "kind": "example",
+   "n": 5
+  },
+  {
+   "t": 140,
+   "name": "Example 6",
+   "kind": "example",
+   "n": 6
+  },
+  {
+   "t": 164,
+   "name": "The end",
+   "kind": "end"
+  }
+ ],
+ "sound": {
+  "music": "music.m4a",
+  "solo": null,
+  "mode": "recording",
+  "voice": "marimba",
+  "length": 184,
+  "lag": 0.044
+ },
+ "cover": "cover.jpg"
+}

@@ -1,0 +1,432 @@
+{
+ "source": "dega-fla",
+ "units": "px at 1920x1080 unless noted",
+ "planks": [
+  {
+   "file": "plank-1.svg",
+   "from": "DEGA D"
+  },
+  {
+   "file": "plank-2.svg",
+   "from": "DEGA E"
+  },
+  {
+   "file": "plank-3.svg",
+   "from": "DEGA G"
+  },
+  {
+   "file": "plank-4.svg",
+   "from": "DEGA A"
+  }
+ ],
+ "plank_letter": {
+  "face": "MyriadPro-Bold",
+  "size_symbol_units": 40.0,
+  "baseline_y_symbol_units": 96.05
+ },
+ "rail": {
+  "file": "rail.svg",
+  "drawn_angle_deg": 6.41
+ },
+ "note_symbol": {
+  "head_ellipse_symbol_units": {
+   "cx": 48.6,
+   "cy": 260.47,
+   "rx": 42.78,
+   "ry": 56.88,
+   "angle_deg": 37.39
+  },
+  "stem_symbol_units": {
+   "x0": 82.05,
+   "x1": 97.05,
+   "top": -5.1
+  },
+  "stage_scale_xy": null,
+  "letter": {
+   "face": "BalooThambi2-SemiBold",
+   "size_symbol_units": 80.0,
+   "matrix": [
+    -1.0,
+    0.0,
+    0.0,
+    -1.23326110839844,
+    121.0,
+    337.6
+   ],
+   "left": 47.5,
+   "width": 49.0
+  }
+ },
+ "staff_symbol_units": [
+  {
+   "index": "1",
+   "weight": 8.0,
+   "colour": "#333333",
+   "caps": "round",
+   "x0": 1092.25,
+   "x1": 1092.25,
+   "y0": 101.55,
+   "y1": 279.9
+  },
+  {
+   "index": "2",
+   "weight": 8.0,
+   "colour": "#009999",
+   "caps": "round",
+   "x0": 135.0,
+   "x1": 1093.9,
+   "y0": 153.85,
+   "y1": 153.85
+  },
+  {
+   "index": "3",
+   "weight": 8.0,
+   "colour": "#C6C600",
+   "caps": "round",
+   "x0": 135.0,
+   "x1": 1093.9,
+   "y0": 237.1,
+   "y1": 237.1
+  }
+ ],
+ "stage": {
+  "Xylophone Notes": {
+   "layer": "Notes",
+   "frame": 690,
+   "matrix": [
+    1.185791015625,
+    0.0,
+    0.0,
+    1.185791015625,
+    241.25,
+    92.1
+   ],
+   "firstFrame": "12"
+  },
+  "Xylophone Planks": {
+   "layer": "Xylo",
+   "frame": 690,
+   "matrix": [
+    2.26039123535156,
+    0.0,
+    0.0,
+    2.26039123535156,
+    804.2,
+    579.8
+   ],
+   "firstFrame": "3"
+  },
+  "Counter": {
+   "layer": "Counter",
+   "frame": 690,
+   "matrix": [
+    1.12603759765625,
+    0.0,
+    0.0,
+    1.12603759765625,
+    -63.7,
+    241.5
+   ],
+   "firstFrame": "1"
+  },
+  "DOMStaticText:Logo": {
+   "layer": "Logo",
+   "frame": 690,
+   "matrix": [
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    1672.5,
+    988.75
+   ],
+   "firstFrame": null
+  },
+  "Count Down": {
+   "layer": "Layer_9",
+   "frame": 560,
+   "matrix": [
+    1.25,
+    0.0,
+    0.0,
+    1.25,
+    182.5,
+    508.0
+   ],
+   "firstFrame": "5"
+  }
+ },
+ "stage_note": "matrix = (a b c d tx ty) of the instance on the main timeline; symbol units x matrix = stage px",
+ "stroke_weights": {
+  "Counter": [
+   10.0
+  ],
+  "Count Down": [
+   10.0
+  ]
+ },
+ "timing": {
+  "fps": 30.0,
+  "beat_frames": 34,
+  "light_off_before_next_frames": [
+   6,
+   7
+  ],
+  "countdown_beats": 8,
+  "plays_per_example": 4,
+  "beats_per_example": 16
+ },
+ "sizes": {
+  "plank-1": {
+   "w": 45.75,
+   "h": 254.25,
+   "x0": -14.42,
+   "y0": -41.34
+  },
+  "plank-2": {
+   "w": 60.41,
+   "h": 241.73,
+   "x0": 22.54,
+   "y0": -35.03
+  },
+  "plank-3": {
+   "w": 51.96,
+   "h": 211.59,
+   "x0": 106.3,
+   "y0": -18.04
+  },
+  "plank-4": {
+   "w": 51.96,
+   "h": 163.96,
+   "x0": 152.67,
+   "y0": 4.99
+  },
+  "rail": {
+   "w": 246.46,
+   "h": 23.9,
+   "x0": -32.74,
+   "y0": 31.87
+  },
+  "ref-note-d": {
+   "w": 105.07,
+   "h": 325.76,
+   "x0": -4.02,
+   "y0": -9.1
+  },
+  "rest-quarter": {
+   "w": 106.25,
+   "h": 303.6,
+   "x0": 1.05,
+   "y0": 1.25
+  },
+  "rest-block": {
+   "w": 209.05,
+   "h": 65,
+   "x0": -62,
+   "y0": 127
+  },
+  "note-half": {
+   "w": 102.1,
+   "h": 249.76,
+   "x0": -2.05,
+   "y0": 65.58
+  },
+  "note-whole": {
+   "w": 105.11,
+   "h": 84.14,
+   "x0": -3.11,
+   "y0": 233.14
+  },
+  "note-quarter": {
+   "w": 101.05,
+   "h": 249.72,
+   "x0": -2.02,
+   "y0": 64.92
+  },
+  "mallet-0": {
+   "w": 112.75,
+   "h": 152.57,
+   "x0": 35,
+   "y0": -43.85
+  },
+  "mallet-1": {
+   "w": 104.95,
+   "h": 155.74,
+   "x0": 72.7,
+   "y0": -53.05
+  },
+  "mallet-2": {
+   "w": 102.51,
+   "h": 144.23,
+   "x0": 106.21,
+   "y0": -38.85
+  },
+  "mallet-3": {
+   "w": 107.47,
+   "h": 142.4,
+   "x0": 107.77,
+   "y0": -37.06
+  },
+  "mallet-4": {
+   "w": 102.51,
+   "h": 144.23,
+   "x0": 106.21,
+   "y0": -38.85
+  },
+  "mallet-5": {
+   "w": 104.95,
+   "h": 151.55,
+   "x0": 69.3,
+   "y0": -45.55
+  },
+  "mallet-6": {
+   "w": 104.95,
+   "h": 153.39,
+   "x0": 27.45,
+   "y0": -40.2
+  },
+  "mallet-7": {
+   "w": 104.95,
+   "h": 149.59,
+   "x0": -14.9,
+   "y0": -33.35
+  },
+  "mallet-8": {
+   "w": 129.62,
+   "h": 146.6,
+   "x0": -45.95,
+   "y0": -16.8
+  },
+  "mallet-9": {
+   "w": 104.95,
+   "h": 158.34,
+   "x0": 81.85,
+   "y0": -54.3
+  },
+  "countdown-0": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-1": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-2": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-3": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-4": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-5": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-6": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-7": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-8": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "countdown-9": {
+   "w": 390.05,
+   "h": 394,
+   "x0": -6.05,
+   "y0": -4
+  },
+  "tracker-0": {
+   "w": 143,
+   "h": 944.15,
+   "x0": -4,
+   "y0": -206
+  },
+  "tracker-1": {
+   "w": 143,
+   "h": 944.15,
+   "x0": -4,
+   "y0": -206
+  },
+  "tracker-2": {
+   "w": 143,
+   "h": 944.15,
+   "x0": -4,
+   "y0": -206
+  },
+  "tracker-3": {
+   "w": 143,
+   "h": 944.15,
+   "x0": -4,
+   "y0": -206
+  },
+  "tracker-4": {
+   "w": 143,
+   "h": 944.15,
+   "x0": -4,
+   "y0": -206
+  },
+  "tracker-5": {
+   "w": 143,
+   "h": 944.15,
+   "x0": -4,
+   "y0": -206
+  },
+  "tracker-6": {
+   "w": 143,
+   "h": 944.15,
+   "x0": -4,
+   "y0": -206
+  },
+  "tracker-7": {
+   "w": 143,
+   "h": 944.15,
+   "x0": -4,
+   "y0": -206
+  },
+  "tracker-8": {
+   "w": 143.8,
+   "h": 1076.1,
+   "x0": -4.8,
+   "y0": -337.95
+  }
+ },
+ "sizes_note": "w h = the file size; x0 y0 = its top-left in the symbol units it was cut from",
+ "logo": {
+  "file": "logo.jpg",
+  "from": "/Users/nathanwalby/Documents/Video Projects/Cover Art/VMM Logo 2024.jpg",
+  "wordmark_crop": {
+   "x": 488,
+   "y": 882,
+   "w": 944,
+   "h": 118
+  }
+ }
+}

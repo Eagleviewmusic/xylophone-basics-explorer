@@ -1,0 +1,18 @@
+{
+ "name": "Xylophone Basics Explorer",
+ "series": "xylophone-basics",
+ "updated": "2026-10-19T00:00:18.618Z",
+ "player": "31d4dc85b8",
+ "site": "https://eagleviewmusic.com/xylophone-basics-explorer/",
+ "lessons": [
+  {
+   "id": "cde",
+   "title": "Xylophone Basics: CDE",
+   "made": "2026-10-19T00:00:18.618Z",
+   "first": "2026-10-19T00:00:18.618Z",
+   "total": 184,
+   "exercises": 6,
+   "cover": "cover.jpg"
+  }
+ ]
+}
