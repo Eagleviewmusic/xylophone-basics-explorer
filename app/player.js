@@ -9,14 +9,15 @@
    The page says where things are:  <div id="xb" data-root="../../app/" data-lesson="./">
    Links: ?ex=3 opens on exercise 3 (0 = the start), ?mallet=off starts with the mallet off.
 
-     ▶ / ■         plays from the playhead; ■ puts it back at the start of the exercise it stopped in
+     ▶ / ❚❚        play and pause: ▶ goes on from where it paused (the user, 2026-10-18 — before, ■ went back
+                   to the start of the exercise); a chip starts an exercise from its countdown
      the chips     the video's chapters: the start, each exercise (its number, in the tracker's colour),
                    a named part (★), the end (✓); ⏮ ⏭ the one before / after; the line seeks
      the mallet    the round button beside the bars: bright = the mallet plays with the music (as in
                    the video); dim = no mallet and the bars don't light with the music — the player
                    plays them (and the lesson's own xylophone part goes quiet, if it has one)
      the bars      tap or click them (several fingers at once), or C D E F G A B (Shift = the higher)
-     keys          Space ▶/■ · ← → exercises · M the mallet
+     keys          Space ▶/❚❚ · ← → exercises · M the mallet
 
    Drawing: three layers on the 1920×1080 stage — the parts under the mallet (redrawn only when the
    picture changes), the mallet (every frame, it's small), the parts over it (the series' layers, as
@@ -46,7 +47,7 @@
 
   /* ---- the page ---- */
   const ICON = {
-    play: '<path d="M8 5v14l11-7z"/>', stop: '<rect x="6" y="6" width="12" height="12" rx="1.5"/>',
+    play: '<path d="M8 5v14l11-7z"/>', pause: '<rect x="6" y="5" width="4.2" height="14" rx="1"/><rect x="13.8" y="5" width="4.2" height="14" rx="1"/>',
     prev: '<path d="M6 6h2v12H6zM20 6v12l-10-6z"/>', next: '<path d="M16 6h2v12h-2zM4 6v12l10-6z"/>',
     vol: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 8.5a4.5 4.5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
     full: '<path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
@@ -287,14 +288,15 @@
     $('xb-big').hidden = true;
     kick();
   };
-  P.stop = function (keep) {
+  /* pause: everything stays where it is, and ▶ goes on from there */
+  P.pause = function () {
     P.music && P.music.stop();
     SND.stopPlayed();
     P.playing = false;
-    if (!keep) { const c = chapterAt(P.t); if (c) P.t = c.t; }
     ui(); draw();
   };
-  P.toggle = () => P.playing ? P.stop() : P.play();
+  P.stop = P.pause;
+  P.toggle = () => P.playing ? P.pause() : P.play();
   /* go to a moment (a chapter, the seek line); playing carries on from there */
   P.go = function (t) {
     P.poster = false;
@@ -329,7 +331,7 @@
     if (P.playing && P.music.playing) {
       P.t = Math.min(P.total, P.music.now());
       schedule();
-      if (P.t >= P.total - 1e-3) { P.t = P.total; P.stop(true); }
+      if (P.t >= P.total - 1e-3) { P.t = P.total; P.pause(); }
     }
     if ((box.clientHeight > box.clientWidth) !== P.tall) orient();      // turned or resized without telling us
     draw(); ui(true);
@@ -364,9 +366,9 @@
     if (fast && sig === lastUi) return;
     lastUi = sig;
     const pb = $('xb-play');
-    pb.innerHTML = svgIcon(P.playing ? 'stop' : 'play');
-    pb.setAttribute('aria-label', P.playing ? 'Stop' : 'Play');
-    pb.title = P.playing ? 'Stop (Space) — back to the start of this exercise' : 'Play (Space)';
+    pb.innerHTML = svgIcon(P.playing ? 'pause' : 'play');
+    pb.setAttribute('aria-label', P.playing ? 'Pause' : 'Play');
+    pb.title = P.playing ? 'Pause (Space)' : 'Play (Space)';
     $('xb-fill').style.width = (P.total ? shown / P.total * 100 : 0).toFixed(2) + '%';
     $('xb-seek').setAttribute('aria-valuenow', Math.round(shown));
     $('xb-seek').setAttribute('aria-valuemax', Math.round(P.total));
@@ -423,7 +425,7 @@
     window.addEventListener('pointercancel', lift, true);
     window.addEventListener('blur', () => { P.pressed.forEach(p => { p.down = false; }); kick(); });
 
-    // the bar's buttons don't keep the focus after a click, so Space stays ▶/■ (a key still reaches them with Tab)
+    // the bar's buttons don't keep the focus after a click, so Space stays ▶/❚❚ (a key still reaches them with Tab)
     box.querySelectorAll('.xb-bar button, .xb-mallet, .xb-big').forEach(b => b.addEventListener('mousedown', e => e.preventDefault()));
 
     // keys
