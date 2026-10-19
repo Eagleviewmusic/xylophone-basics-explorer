@@ -73,7 +73,7 @@
     '<div class="xb-bar" id="xb-bar">' +
       '<div class="xb-seek" id="xb-seek" role="slider" aria-label="Where in the lesson" tabindex="0"><div class="xb-track"><div class="xb-fill" id="xb-fill"></div></div><div class="xb-ticks" id="xb-ticks"></div></div>' +
       '<div class="xb-row">' +
-      '<button class="xb-btn xb-play" id="xb-play" type="button" aria-label="Play" title="Play (Space)">' + svgIcon('play') + '</button>' +
+      '<button class="xb-btn xb-play" id="xb-play" type="button" aria-label="Play" title="Play (Space)">' + svgIcon('play', 'i-play') + svgIcon('pause', 'i-pause') + '</button>' +
       '<button class="xb-btn" id="xb-prev" type="button" aria-label="The exercise before" title="The exercise before (←)">' + svgIcon('prev') + '</button>' +
       '<button class="xb-btn" id="xb-next" type="button" aria-label="The next exercise" title="The next exercise (→)">' + svgIcon('next') + '</button>' +
       '<div class="xb-chips" id="xb-chips" role="group" aria-label="Exercises"></div>' +
@@ -365,10 +365,15 @@
     const sig = P.playing + '|' + Math.floor(shown * 4) + '|' + P.poster;
     if (fast && sig === lastUi) return;
     lastUi = sig;
+    // the button holds both pictures and shows one (CSS): never put new ones in it while it's being clicked —
+    // a press on a picture that's swapped before the release is no click at all (2026-10-18: half the pauses were lost,
+    // when this was rebuilt with the clock, four times a second)
     const pb = $('xb-play');
-    pb.innerHTML = svgIcon(P.playing ? 'pause' : 'play');
-    pb.setAttribute('aria-label', P.playing ? 'Pause' : 'Play');
-    pb.title = P.playing ? 'Pause (Space)' : 'Play (Space)';
+    if (pb.classList.contains('on') !== P.playing) {
+      pb.classList.toggle('on', P.playing);
+      pb.setAttribute('aria-label', P.playing ? 'Pause' : 'Play');
+      pb.title = P.playing ? 'Pause (Space)' : 'Play (Space)';
+    }
     $('xb-fill').style.width = (P.total ? shown / P.total * 100 : 0).toFixed(2) + '%';
     $('xb-seek').setAttribute('aria-valuenow', Math.round(shown));
     $('xb-seek').setAttribute('aria-valuemax', Math.round(P.total));
