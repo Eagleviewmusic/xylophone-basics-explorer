@@ -1,0 +1,268 @@
+{
+ "format": 1,
+ "kind": "xylophone-basics-lesson",
+ "id": "ega",
+ "title": "Xylophone Basics: EGA",
+ "made": "2026-10-19T01:39:53.946Z",
+ "first": "2026-10-19T01:39:53.946Z",
+ "project": {
+  "series": "xylophone-basics",
+  "title": "Xylophone Basics: EGA",
+  "slides": [
+   {
+    "music": "G A G E"
+   },
+   {
+    "music": "GG AA GG E"
+   },
+   {
+    "music": "E G AA G"
+   },
+   {
+    "music": "AA GG E E"
+   },
+   {
+    "music": "GG E AA E"
+   },
+   {
+    "music": "G EA G E"
+   },
+   {
+    "music": "r A AG A"
+   },
+   {
+    "music": "GE G GA G"
+   },
+   {
+    "music": "AE G EA G"
+   }
+  ],
+  "order": [
+   {
+    "type": "logo",
+    "bars": 1,
+    "transition": {
+     "style": "cut",
+     "beats": 0
+    },
+    "layout": {}
+   },
+   {
+    "type": "title",
+    "beats": 16,
+    "line": "Xylophone Basics:",
+    "demo": 0,
+    "transition": {
+     "style": "outin",
+     "beats": 2
+    },
+    "layout": {}
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     1
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 4
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     2
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 36
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     3
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 61
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     4
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 84
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     5
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 109
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     6
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 132
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     7
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 157
+   },
+   {
+    "type": "part",
+    "name": "",
+    "slides": [
+     8
+    ],
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 181
+   },
+   {
+    "type": "end",
+    "seconds": 16,
+    "lines": [
+     "Thanks for playing along"
+    ],
+    "show": "both",
+    "transition": {
+     "style": "cut",
+     "beats": 0
+    },
+    "layout": {},
+    "mallet": "tap"
+   }
+  ],
+  "format": 1,
+  "tempo": {
+   "bpm": 60
+  },
+  "light": {
+   "gap": 0.2
+  },
+  "xylophone": {
+   "base": 4,
+   "bars": [],
+   "gaps": true,
+   "nudge": {},
+   "mallet": true
+  },
+  "staff": {
+   "lines": "used",
+   "colour": "notes"
+  },
+  "stageLayout": {},
+  "app": {
+   "id": "ega",
+   "mode": "recording",
+   "voice": "marimba"
+  }
+ },
+ "timing": null,
+ "total": 232.02,
+ "chapters": [
+  {
+   "t": 0,
+   "name": "Intro",
+   "kind": "intro"
+  },
+  {
+   "t": 20,
+   "name": "Example 1",
+   "kind": "example",
+   "n": 1
+  },
+  {
+   "t": 44,
+   "name": "Example 2",
+   "kind": "example",
+   "n": 2
+  },
+  {
+   "t": 68,
+   "name": "Example 3",
+   "kind": "example",
+   "n": 3
+  },
+  {
+   "t": 92,
+   "name": "Example 4",
+   "kind": "example",
+   "n": 4
+  },
+  {
+   "t": 116,
+   "name": "Example 5",
+   "kind": "example",
+   "n": 5
+  },
+  {
+   "t": 140,
+   "name": "Example 6",
+   "kind": "example",
+   "n": 6
+  },
+  {
+   "t": 164,
+   "name": "Example 7",
+   "kind": "example",
+   "n": 7
+  },
+  {
+   "t": 188,
+   "name": "Example 8",
+   "kind": "example",
+   "n": 8
+  },
+  {
+   "t": 212,
+   "name": "The end",
+   "kind": "end"
+  }
+ ],
+ "sound": {
+  "music": "music.m4a",
+  "solo": null,
+  "mode": "recording",
+  "voice": "marimba",
+  "length": 232.01959,
+  "lag": 0.044
+ },
+ "cover": "cover.jpg"
+}

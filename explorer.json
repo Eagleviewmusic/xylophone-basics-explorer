@@ -1,7 +1,7 @@
 {
  "name": "Xylophone Basics Explorer",
  "series": "xylophone-basics",
- "updated": "2026-10-19T00:58:44.538Z",
+ "updated": "2026-10-19T01:39:53.946Z",
  "player": "59471e761d",
  "site": "https://eagleviewmusic.com/xylophone-basics-explorer/",
  "lessons": [
@@ -30,6 +30,15 @@
    "first": "2026-10-19T00:58:44.538Z",
    "total": 371.331,
    "exercises": 7,
+   "cover": "cover.jpg"
+  },
+  {
+   "id": "ega",
+   "title": "Xylophone Basics: EGA",
+   "made": "2026-10-19T01:39:53.946Z",
+   "first": "2026-10-19T01:39:53.946Z",
+   "total": 232.02,
+   "exercises": 8,
    "cover": "cover.jpg"
   }
  ]
