@@ -10,7 +10,8 @@
        xylophone: { base, bars, gaps, nudge, mallet },   (series settings — the core just keeps them;
                                    mallet: false = no mallet playing the bars; on unless set)
        staff:  { lines, colour },
-       slides: [{ music }],        one bar each, the quick text form (core/music.js); 7 at most
+       slides: [{ music }],        one bar each, the quick text form (core/music.js); as many as you like
+                                   (7 at most until 2026-10-18 — the user lifted it; the tracker shrinks to fit more)
        order:  [section…],         the running order (core/show.js)
                                    a card or the end may add  show: 'words'|'icons'|'both'  and
                                    icons: [id…] (the series draws them; '' = none in that place)
@@ -30,7 +31,6 @@
 (function () {
   'use strict';
   const Studio = window.Studio, M = Studio.Music;
-  const MAX_SLIDES = 7;                        // the tracker never has more than 7 (the user's rule)
 
   /* DEGA's running order — the template every new video starts from. The cards as the user set them
      (2026-10-16): "Repeat x4 / Play Along" as icons; ADVANCED MODE in words with the no-sign beside
@@ -45,7 +45,7 @@
     { type: 'end', seconds: 16, lines: ['Thanks for playing along'], show: 'both' }
   ];
 
-  const P = Studio.Project = { FORMAT: 1, MAX_SLIDES, ORDER };
+  const P = Studio.Project = { FORMAT: 1, ORDER };
 
   /* a new video (the user, 2026-10-17): the cards, and the slides dropped onto the timeline one by one —
      each a block of its own (an 8-beat countdown, then the bar 4 times). No Advanced part yet. */
@@ -75,7 +75,7 @@
     p.xylophone.mallet = p.xylophone.mallet !== false;
     if (!p.xylophone.nudge || typeof p.xylophone.nudge !== 'object') p.xylophone.nudge = {};
     p.staff = Object.assign({ lines: 'used', colour: 'notes' }, p.staff);
-    p.slides = (Array.isArray(p.slides) ? p.slides : []).slice(0, MAX_SLIDES)
+    p.slides = (Array.isArray(p.slides) ? p.slides : [])
       .map(s => typeof s === 'string' ? { music: s } : Object.assign({ music: '' }, s));
     if (!p.slides.length) p.slides.push({ music: '' });
     p.order = Array.isArray(p.order) && p.order.length ? p.order.map(s => section(s, p.tempo.bpm)) : ORDER();

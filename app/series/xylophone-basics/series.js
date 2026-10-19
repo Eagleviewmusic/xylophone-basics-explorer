@@ -461,15 +461,21 @@
     return out + '</g>';
   };
 
+  /* the tracker's circles for `count` examples: DEGA's size up to 7 (its column, bottom 992 to top 90); more
+     shrink to fit that same column (the user lifted the 7-slide limit, 2026-10-18), the rainbow starting again */
+  const trackGeo = count => {
+    const c = Math.max(1, count || 1), k = c > 7 ? 6 / (c - 1) : 1;
+    return { count: c, pitch: TRACK.pitch * k, r: TRACK.r * k, stroke: TRACK.stroke * k };
+  };
   /* the side tracker: `count` circles from the bottom, the first `lit` in rainbow order — or, across (a tall
      screen), a row from the left at y 0 */
   X.drawTracker = function (count, lit, across) {
     if (!count) return '';
-    const t = X.colours.tracker;
+    const t = X.colours.tracker, g = trackGeo(count);
     let out = '<g class="tracker">';
-    for (let i = 0; i < Math.min(count, 7); i++) {
-      out += '<circle cx="' + n(across ? i * TRACK.pitch : TRACK.x) + '" cy="' + n(across ? 0 : TRACK.bottom - i * TRACK.pitch) + '" r="' + TRACK.r + '" fill="' +
-        (i < lit ? t.on[i] : t.off) + '" stroke="' + t.stroke + '" stroke-width="' + TRACK.stroke + '"/>';
+    for (let i = 0; i < g.count; i++) {
+      out += '<circle cx="' + n(across ? i * g.pitch : TRACK.x) + '" cy="' + n(across ? 0 : TRACK.bottom - i * g.pitch) + '" r="' + n(g.r) + '" fill="' +
+        (i < lit ? t.on[i % t.on.length] : t.off) + '" stroke="' + t.stroke + '" stroke-width="' + n(g.stroke) + '"/>';
     }
     return out + '</g>';
   };
@@ -809,10 +815,10 @@
   const xyloPart = (L, litId) => L.xylo.bars.length ? { id: 'xylophone', owner: 'stage', svg: X.drawXylophone(L, litId), box: fit(L.xylo.box) } : null;
   const notePart = (L, slide, lit, opt) => ({ id: 'notation', owner: 'stage', svg: X.drawNotation(L, slide, lit, opt), box: fit(L.box) });
   const markPart = () => { const r = X.nameText(WORD.cx, WORD.cy, WORD.cap, WORD.w); return { id: 'wordmark', owner: 'stage', svg: r.svg, box: r.box }; };
-  const trackRow = count => { const e = TRACK.r + TRACK.stroke / 2; return box(-e, -e, (Math.min(count, 7) - 1) * TRACK.pitch + e, e); };
+  const trackRow = count => { const g = trackGeo(count), e = g.r + g.stroke / 2; return box(-e, -e, (g.count - 1) * g.pitch + e, e); };
   const trackPart = (count, lit, across) => count && across ? { id: 'tracker', owner: 'stage', svg: X.drawTracker(count, lit, true), box: trackRow(count) } :
     count ? { id: 'tracker', owner: 'stage', svg: X.drawTracker(count, lit),
-    box: box(TRACK.x - TRACK.r, TRACK.bottom - (Math.min(count, 7) - 1) * TRACK.pitch - TRACK.r, TRACK.x + TRACK.r, TRACK.bottom + TRACK.r) } : null;
+    box: (g => box(TRACK.x - g.r, TRACK.bottom - (g.count - 1) * g.pitch - g.r, TRACK.x + g.r, TRACK.bottom + g.r))(trackGeo(count)) } : null;
   const countPart = beat => beat != null && beat >= 0 && beat <= 8 ? { id: 'countdown', owner: 'stage', svg: X.drawCountdown(beat),
     box: box(COUNT.x[0] - COUNT.r, COUNT.y[0] - COUNT.r, COUNT.x[1] + COUNT.r, COUNT.y[1] + COUNT.r) } : null;
   const own = (p, owner) => p && Object.assign(p, { owner });

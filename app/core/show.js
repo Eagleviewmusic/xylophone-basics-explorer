@@ -15,7 +15,7 @@
      card   { style: 'over'|'full', beats, lines }   words over the stage / on their own
      part   { name, slides: 'all'|[i…], repeats, countdown: 'each'|'first'|'none', bars, firstBars }
               each slide: a countdown (bars × 4 beats) then the bar played `repeats` times;
-              the tracker counts the part's slides (7 at most)
+              the tracker counts the part's slides (any number: the series fits them in)
      end    { seconds, lines, mallet: 'tap'|'still'|'none' }
      any of them may have  at: seconds — put on the timeline by hand: it starts there (a 'wait' fills the gap
      before it, showing what comes next), or straight after the one before if that runs past it (show.late)
@@ -44,7 +44,7 @@
   Show.partSlides = function (sec, slides) {
     const all = slides.map((s, i) => i).filter(i => playable(slides[i]));
     const list = sec.slides === 'all' || !Array.isArray(sec.slides) ? all : sec.slides.filter(i => all.includes(i));
-    return list.slice(0, 7);
+    return list;
   };
 
   Show.build = function (project, slides) {
@@ -102,8 +102,8 @@
       }
       if (wait) wait.next = segs.length > from ? segs[from] : null;
     });
-    // the tracker: as many circles as slides in the run (7 at most)
-    segs.forEach(g => { if (g.run) { g.count = Math.min(7, g.run.count); delete g.run; } });
+    // the tracker: as many circles as slides in the run
+    segs.forEach(g => { if (g.run) { g.count = g.run.count; delete g.run; } });
     return { segs, total: t, beat, chapters, late, hits: Show.hits(segs, slides, beat) };
   };
 
