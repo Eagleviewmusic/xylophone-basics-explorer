@@ -1,7 +1,7 @@
 {
  "name": "Xylophone Basics Explorer",
  "series": "xylophone-basics",
- "updated": "2026-10-19T00:44:10.315Z",
+ "updated": "2026-10-19T00:58:44.538Z",
  "player": "eb821b8737",
  "site": "https://eagleviewmusic.com/xylophone-basics-explorer/",
  "lessons": [
@@ -20,6 +20,15 @@
    "made": "2026-10-19T00:44:10.315Z",
    "first": "2026-10-19T00:44:10.315Z",
    "total": 204,
+   "exercises": 7,
+   "cover": "cover.jpg"
+  },
+  {
+   "id": "dega",
+   "title": "Xylophone Basics: DEGA",
+   "made": "2026-10-19T00:58:44.538Z",
+   "first": "2026-10-19T00:58:44.538Z",
+   "total": 371.331,
    "exercises": 7,
    "cover": "cover.jpg"
   }

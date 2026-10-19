@@ -1,0 +1,223 @@
+{
+ "format": 1,
+ "kind": "xylophone-basics-lesson",
+ "id": "dega",
+ "title": "Xylophone Basics: DEGA",
+ "made": "2026-10-19T00:58:44.538Z",
+ "first": "2026-10-19T00:58:44.538Z",
+ "project": {
+  "series": "xylophone-basics",
+  "title": "Xylophone Basics: DEGA",
+  "xylophone": {
+   "base": 4,
+   "bars": [
+    "D4",
+    "E4",
+    "G4",
+    "A4"
+   ],
+   "gaps": true,
+   "nudge": {},
+   "mallet": true
+  },
+  "staff": {
+   "lines": "used",
+   "colour": "notes"
+  },
+  "slides": [
+   {
+    "music": "D E G A"
+   },
+   {
+    "music": "A GG EE D"
+   },
+   {
+    "music": "DD G EE A"
+   },
+   {
+    "music": "r GE r AD"
+   },
+   {
+    "music": "GG AA E D"
+   },
+   {
+    "music": "DE AG E E"
+   },
+   {
+    "music": "GA DE GE G"
+   }
+  ],
+  "tempo": {
+   "bpm": 53
+  },
+  "light": {
+   "gap": 0.2
+  },
+  "order": [
+   {
+    "type": "logo",
+    "bars": 1,
+    "transition": {
+     "style": "cut",
+     "beats": 0
+    },
+    "layout": {}
+   },
+   {
+    "type": "title",
+    "beats": 8,
+    "line": "Xylophone Basics:",
+    "demo": 2,
+    "transition": {
+     "style": "outin",
+     "beats": 2
+    },
+    "layout": {}
+   },
+   {
+    "type": "card",
+    "style": "over",
+    "beats": 4,
+    "lines": [
+     "Repeat x4",
+     "Play\nAlong"
+    ],
+    "show": "icons",
+    "transition": {
+     "style": "cut",
+     "beats": 0
+    },
+    "layout": {}
+   },
+   {
+    "type": "part",
+    "name": "Part 1",
+    "slides": "all",
+    "repeats": 4,
+    "countdown": "each",
+    "bars": 2,
+    "firstBars": 1
+   },
+   {
+    "type": "card",
+    "style": "full",
+    "beats": 12,
+    "lines": [
+     "ADVANCED MODE",
+     "No breaks"
+    ],
+    "show": "both",
+    "icons": [
+     "",
+     "nobreaks"
+    ],
+    "transition": {
+     "style": "cut",
+     "beats": 0
+    },
+    "layout": {}
+   },
+   {
+    "type": "part",
+    "name": "Advanced",
+    "slides": "all",
+    "repeats": 4,
+    "countdown": "first",
+    "bars": 2,
+    "firstBars": 2,
+    "at": 217.615
+   },
+   {
+    "type": "end",
+    "seconds": 16,
+    "lines": [
+     "Thanks for playing along"
+    ],
+    "show": "both",
+    "transition": {
+     "style": "cut",
+     "beats": 0
+    },
+    "layout": {},
+    "mallet": "tap"
+   }
+  ],
+  "format": 1,
+  "stageLayout": {},
+  "app": {
+   "id": "dega",
+   "mode": "recording",
+   "voice": "marimba"
+  }
+ },
+ "timing": null,
+ "total": 371.331,
+ "chapters": [
+  {
+   "t": 0,
+   "name": "Intro",
+   "kind": "intro"
+  },
+  {
+   "t": 18.113,
+   "name": "Part 1 · Example 1",
+   "kind": "example",
+   "n": 1
+  },
+  {
+   "t": 40.755,
+   "name": "Part 1 · Example 2",
+   "kind": "example",
+   "n": 2
+  },
+  {
+   "t": 67.925,
+   "name": "Part 1 · Example 3",
+   "kind": "example",
+   "n": 3
+  },
+  {
+   "t": 95.094,
+   "name": "Part 1 · Example 4",
+   "kind": "example",
+   "n": 4
+  },
+  {
+   "t": 122.264,
+   "name": "Part 1 · Example 5",
+   "kind": "example",
+   "n": 5
+  },
+  {
+   "t": 149.434,
+   "name": "Part 1 · Example 6",
+   "kind": "example",
+   "n": 6
+  },
+  {
+   "t": 176.604,
+   "name": "Part 1 · Example 7",
+   "kind": "example",
+   "n": 7
+  },
+  {
+   "t": 203.774,
+   "name": "Advanced mode",
+   "kind": "part"
+  },
+  {
+   "t": 353.464,
+   "name": "The end",
+   "kind": "end"
+  }
+ ],
+ "sound": {
+  "music": "music.m4a",
+  "solo": null,
+  "mode": "recording",
+  "voice": "marimba",
+  "length": 371.33061,
+  "lag": 0.044
+ },
+ "cover": "cover.jpg"
+}
