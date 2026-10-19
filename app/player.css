@@ -12,7 +12,7 @@ body { color: var(--xb-ink); font: 14px/1.3 system-ui, -apple-system, 'Segoe UI'
 .xb-frame { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #fff; }
 .xb-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; background: #fff;
   touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
-.xb-layer { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+.xb-layer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .xb-layer > svg { display: block; }
 #xb-mid, #xb-above { pointer-events: none; }
 
@@ -27,7 +27,7 @@ body { color: var(--xb-ink); font: 14px/1.3 system-ui, -apple-system, 'Segoe UI'
 .xb-mallet[hidden], .xb-big[hidden] { display: none; }
 
 /* before the first ▶: a light veil over the screen, a big ▶ in the middle (it's also the click browsers want before sound) */
-.xb-big { position: absolute; inset: 0; width: 1920px; height: 1080px; border: 0; padding: 0; cursor: pointer; background: rgba(255, 255, 255, .45);
+.xb-big { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; padding: 0; cursor: pointer; background: rgba(255, 255, 255, .45);
   display: grid; place-items: center; }
 .xb-big span { width: 220px; height: 220px; border-radius: 50%; background: rgba(31, 36, 48, .82); color: #fff; display: grid; place-items: center;
   box-shadow: 0 10px 40px rgba(0, 0, 0, .25); transition: background .15s, transform .15s; }
@@ -84,3 +84,15 @@ body { color: var(--xb-ink); font: 14px/1.3 system-ui, -apple-system, 'Segoe UI'
   .xb-chip { width: 28px; height: 28px; font-size: 14px; }
 }
 @media (max-width: 420px) { .xb-time { display: none; } }
+
+/* ---- taller than wide (a phone, a narrow embed): ▶ ⏮ ⏭ on top, the seek line and the exercise circles at the bottom ---- */
+.xb-top { flex: none; display: flex; align-items: center; gap: 6px; padding: 6px 10px; background: var(--xb-bar); border-bottom: 1px solid var(--xb-line); }
+.xb-top[hidden] { display: none; }
+.xb.tall .xb-row { padding: 4px 8px 8px; }
+.xb.tall .xb-chips { margin: 0 auto; gap: 7px; }
+.xb.tall .xb-chip { width: 36px; height: 36px; font-size: 16px; }
+.xb.tall .xb-chip .ic { width: 20px; height: 20px; }
+.xb.tall .xb-seek { height: 22px; margin: 4px 12px 0; }
+.xb.tall .xb-track { top: 8px; height: 6px; border-radius: 3px; }
+.xb.tall .xb-ticks i { top: 5px; height: 12px; }
+.xb.tall .xb-time { display: inline; }

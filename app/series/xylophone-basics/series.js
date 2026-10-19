@@ -22,6 +22,10 @@
      X.where(project, L, state, id), X.barAt(project, L, state, x, y)   where a part is on the stage, and the
                                   bar under a point (the play-along app's taps)
      X.FILES                      the asset files X.load reads (the play-along app copies them)
+     X.frameFor(project, L, w, h) a tall screen's layout (the play-along app on a phone, 2026-10-18): the music,
+                                  the count-in, the xylophone, the name and the tracker (a row) one under another;
+                                  the cards fitted across. Pass it as `frame` to scene / sprites / where / barAt;
+                                  without it everything is the video's 1920×1080, as before
 
    All sizes come from DEGA (assets/kit.json, measured 2026-10-16), so a
    project like DEGA's draws at DEGA's size. Units: stage px, and "sp" = one
@@ -457,13 +461,14 @@
     return out + '</g>';
   };
 
-  /* the side tracker: `count` circles from the bottom, the first `lit` in rainbow order */
-  X.drawTracker = function (count, lit) {
+  /* the side tracker: `count` circles from the bottom, the first `lit` in rainbow order — or, across (a tall
+     screen), a row from the left at y 0 */
+  X.drawTracker = function (count, lit, across) {
     if (!count) return '';
     const t = X.colours.tracker;
     let out = '<g class="tracker">';
     for (let i = 0; i < Math.min(count, 7); i++) {
-      out += '<circle cx="' + TRACK.x + '" cy="' + n(TRACK.bottom - i * TRACK.pitch) + '" r="' + TRACK.r + '" fill="' +
+      out += '<circle cx="' + n(across ? i * TRACK.pitch : TRACK.x) + '" cy="' + n(across ? 0 : TRACK.bottom - i * TRACK.pitch) + '" r="' + TRACK.r + '" fill="' +
         (i < lit ? t.on[i] : t.off) + '" stroke="' + t.stroke + '" stroke-width="' + TRACK.stroke + '"/>';
     }
     return out + '</g>';
@@ -804,7 +809,9 @@
   const xyloPart = (L, litId) => L.xylo.bars.length ? { id: 'xylophone', owner: 'stage', svg: X.drawXylophone(L, litId), box: fit(L.xylo.box) } : null;
   const notePart = (L, slide, lit, opt) => ({ id: 'notation', owner: 'stage', svg: X.drawNotation(L, slide, lit, opt), box: fit(L.box) });
   const markPart = () => { const r = X.nameText(WORD.cx, WORD.cy, WORD.cap, WORD.w); return { id: 'wordmark', owner: 'stage', svg: r.svg, box: r.box }; };
-  const trackPart = (count, lit) => count ? { id: 'tracker', owner: 'stage', svg: X.drawTracker(count, lit),
+  const trackRow = count => { const e = TRACK.r + TRACK.stroke / 2; return box(-e, -e, (Math.min(count, 7) - 1) * TRACK.pitch + e, e); };
+  const trackPart = (count, lit, across) => count && across ? { id: 'tracker', owner: 'stage', svg: X.drawTracker(count, lit, true), box: trackRow(count) } :
+    count ? { id: 'tracker', owner: 'stage', svg: X.drawTracker(count, lit),
     box: box(TRACK.x - TRACK.r, TRACK.bottom - (Math.min(count, 7) - 1) * TRACK.pitch - TRACK.r, TRACK.x + TRACK.r, TRACK.bottom + TRACK.r) } : null;
   const countPart = beat => beat != null && beat >= 0 && beat <= 8 ? { id: 'countdown', owner: 'stage', svg: X.drawCountdown(beat),
     box: box(COUNT.x[0] - COUNT.r, COUNT.y[0] - COUNT.r, COUNT.x[1] + COUNT.r, COUNT.y[1] + COUNT.r) } : null;
@@ -820,7 +827,7 @@
   };
 
   /* what a screen is made of: { kind, section, parts: [{ id, owner, svg, box }] } */
-  X.screen = function (project, L, st) {
+  X.screen = function (project, L, st, frame) {
     const card = st.card, sec = card && card.section != null ? card.section : null;
     const out = (kind, parts) => ({ kind, section: sec, parts: parts.filter(Boolean) });
     if (card && card.type === 'logo') {
@@ -902,7 +909,7 @@
     const ev = sl && st.lit != null && st.lit >= 0 ? sl.events[st.lit] : null;
     const xp = xyloPart(L, barOf(st, ev && ev.pitch));
     const parts = [
-      st.tracker ? trackPart(st.tracker.count, st.tracker.lit) : null,
+      st.tracker ? trackPart(st.tracker.count, st.tracker.lit, frame && frame.portrait) : null,
       xp, playerPart(project, L, st, xp),
       countPart(st.countdown),                     // over the xylophone: a wide one reaches under the circles
       sl ? notePart(L, st.slide, st.lit, { select: st.select }) : null,
@@ -941,15 +948,88 @@
 
   /* where a part goes on this screen: the person's arrangement, else DEGA's, else where it's drawn.
      A part that follows another (the mallet: the xylophone) goes where that one goes — it has the same box */
-  X.layoutOf = function (project, scr, part) {
+  X.layoutOf = function (project, scr, part, frame) {
     const lead = part.follows && scr.parts.find(p => p.id === part.follows);
-    if (lead) return X.layoutOf(project, scr, lead);
+    if (lead) return X.layoutOf(project, scr, lead, frame);
+    if (frame && frame.portrait) return tallPlace(project, scr, part, frame);
     const book = part.owner === 'stage' ? project.stageLayout : (scr.section != null && project.order && project.order[scr.section] ? project.order[scr.section].layout : null);
     const mine = book && book[part.id];
     if (mine && isFinite(mine.x) && isFinite(mine.y) && mine.s > 0) return mine;
     const d = DEFAULTS[scr.kind] && DEFAULTS[scr.kind][part.id];
     return d ? d(part) : { x: part.box.cx, y: part.box.cy, s: 1 };
   };
+
+  /* ---- a tall screen (the play-along app, 2026-10-18: the user's order, top to bottom) ----
+     the music · the count-in · the xylophone (room under it for the mallet's handle) · the name · the tracker as a row;
+     a title card the same way: its words · the big letters · the demo's music · the xylophone · the name.
+     Each fills the width up to its own most (`most`, × its size in the video), all shrink together if the height is
+     short, and what height is left goes between them. The words or icons over the playing screen go in the
+     count-in's place (they come before it). Every other screen — the logo, the words cards, the end — is the
+     video's, fitted across. What the person arranged (✥ Arrange) is the video's; a tall screen lays itself out. */
+  X.PORTRAIT = { w: 1080, margin: 40, gap: 28,
+    most: { notation: 1, countdown: 0.6, xylophone: 1.3, wordmark: 1.15, tracker: 0.85, title: 1, letters: 1 } };
+  X.frameFor = function (project, L, w, h) {
+    const T = X.PORTRAIT, W = Math.round(w || T.w), H = Math.round(Math.max(h || 0, W)), across = W - 2 * T.margin;
+    const size = b => ({ w: b.x1 - b.x0, h: b.y1 - b.y0 });
+    const xy = L.xylo.bars.length ? L.xylo.box : null;
+    const room = xy ? Math.max(0, XY.centreY + (X.MALLET.strike + X.MALLET.reach) * L.xylo.k - xy.y1) + 12 : 0;
+    const xylo = () => xy && Object.assign({ id: 'xylophone', below: room }, size(xy), { h: xy.y1 - xy.y0 + room });
+    /* slots one under another → { id: { x, y, s } }, and each slot's band (y0, y1) */
+    const stack = list => {
+      const slots = list.filter(Boolean);
+      slots.forEach(sl => { sl.s = Math.min(T.most[sl.id], across / sl.w); });
+      const gaps = T.gap * (slots.length + 1), used = slots.reduce((a, sl) => a + sl.h * sl.s, 0);
+      const f = Math.min(1, (H - gaps) / used);
+      slots.forEach(sl => { sl.s *= f; });
+      const gap = T.gap + Math.max(0, H - gaps - used * f) / (slots.length + 1);
+      const place = {}, bands = {};
+      let y = gap;
+      slots.forEach(sl => {
+        const tall = sl.h * sl.s;
+        place[sl.id] = { x: W / 2, y: y + (tall - (sl.below || 0) * sl.s) / 2, s: Math.round(sl.s * 10000) / 10000 };
+        bands[sl.id] = { y0: y, y1: y + tall };
+        y += tall + gap;
+      });
+      return { place, bands };
+    };
+    const play = stack([
+      Object.assign({ id: 'notation' }, size(L.box)),
+      Object.assign({ id: 'countdown' }, size(countPart(0).box)),
+      xylo(),
+      Object.assign({ id: 'wordmark' }, size(markPart().box)),
+      Object.assign({ id: 'tracker' }, size(trackRow(7)))
+    ]);
+    // each title card: its words, the big letters, the demo's music, the xylophone, the name
+    const titles = {};
+    (project.order || []).forEach((sec, i) => {
+      if (sec.type !== 'title') return;
+      const scr = X.screen(project, L, { card: { type: 'title', section: i, line: sec.line, demo: sec.demo != null && sec.demo >= 0 ? sec.demo : null, lit: -1 }, slide: null });
+      const part = id => scr.parts.find(p => p.id === id);
+      titles[i] = stack(['title', 'letters', 'notation', 'xylophone', 'wordmark'].map(id => !part(id) ? null :
+        id === 'xylophone' ? xylo() : Object.assign({ id }, size(part(id).box)))).place;
+    });
+    const k = W / 1920;
+    return { portrait: true, w: W, h: H, margin: T.margin, place: play.place, band: play.bands.countdown, titles, k, ox: 0, oy: (H - 1080 * k) / 2 };
+  };
+  function tallPlace(project, scr, part, F) {
+    if ((scr.kind === 'play' || scr.kind === 'over') && part.owner === 'stage' && F.place[part.id]) return F.place[part.id];
+    const t = scr.kind === 'title' && F.titles && F.titles[scr.section];
+    if (t && t[part.id]) return t[part.id];
+    if (scr.kind === 'over' && part.owner === 'section' && F.band) {
+      // a row across the count-in's place, each as tall as the place lets it be
+      const list = scr.parts.filter(p => p.owner === 'section'), bh = F.band.y1 - F.band.y0, gap = 50;
+      const ws = list.map(p => p.box.x1 - p.box.x0), ss = list.map(p => Math.min(1, bh / (p.box.y1 - p.box.y0)));
+      const tw = ws.reduce((a, w, i) => a + w * ss[i], 0) + gap * (list.length - 1), f = Math.min(1, (F.w - 2 * F.margin) / tw);
+      let x = F.w / 2 - tw * f / 2;
+      for (let i = 0; i < list.length; i++) {
+        const wi = ws[i] * ss[i] * f;
+        if (list[i] === part) return { x: x + wi / 2, y: (F.band.y0 + F.band.y1) / 2, s: ss[i] * f };
+        x += wi + gap * f;
+      }
+    }
+    const l = X.layoutOf(project, scr, part);             // the video's screen, fitted across
+    return { x: F.ox + l.x * F.k, y: F.oy + l.y * F.k, s: l.s * F.k };
+  }
 
   function placed(part, l, opacity) {
     const b = part.box, k = l.s;
@@ -967,9 +1047,9 @@
   const smooth = k => k * k * (3 - 2 * k);
 
   /* a moment as a plan: each part, where it goes ({ x, y, s }) and how see-through (o) — in drawing order */
-  function blend(project, A, B, trans) {
+  function blend(project, A, B, trans, frame) {
     const u = Math.max(0, Math.min(1, trans.u));
-    const la = p => X.layoutOf(project, A, p), lb = p => X.layoutOf(project, B, p);
+    const la = p => X.layoutOf(project, A, p, frame), lb = p => X.layoutOf(project, B, p, frame);
     const inB = id => B.parts.find(p => p.id === id), inA = id => A.parts.find(p => p.id === id);
     const out = [], put = (p, l, o) => out.push({ p, l, o });
     if (trans.style === 'glide') {
@@ -991,24 +1071,24 @@
     }
     return out;
   }
-  function plan(project, L, st) {
-    const A = X.screen(project, L, st);
-    if (st.trans && st.trans.u > 0 && st.trans.style !== 'cut' && st.trans.to) return blend(project, A, X.screen(project, L, st.trans.to), st.trans);
-    return A.parts.map(p => ({ p, l: X.layoutOf(project, A, p) }));
+  function plan(project, L, st, frame) {
+    const A = X.screen(project, L, st, frame);
+    if (st.trans && st.trans.u > 0 && st.trans.style !== 'cut' && st.trans.to) return blend(project, A, X.screen(project, L, st.trans.to, frame), st.trans, frame);
+    return A.parts.map(p => ({ p, l: X.layoutOf(project, A, p, frame) }));
   }
 
   /* where a part of this moment's screen is on the stage (no transition): { l: { x, y, s }, box (its own px),
      x0, y0, x1, y1 (stage px) } — null when the screen hasn't that part */
-  X.where = function (project, L, st, id) {
-    const scr = X.screen(project, L, st || {}), part = scr.parts.find(p => p.id === id);
+  X.where = function (project, L, st, id, frame) {
+    const scr = X.screen(project, L, st || {}, frame), part = scr.parts.find(p => p.id === id);
     if (!part) return null;
-    const l = X.layoutOf(project, scr, part), b = part.box, at = (v, c, o) => o + (v - c) * l.s;
+    const l = X.layoutOf(project, scr, part, frame), b = part.box, at = (v, c, o) => o + (v - c) * l.s;
     return { l, box: b, x0: at(b.x0, b.cx, l.x), x1: at(b.x1, b.cx, l.x), y0: at(b.y0, b.cy, l.y), y1: at(b.y1, b.cy, l.y) };
   };
   /* the bar under a stage point (x, y), or null — a little generous, for fingers: the nearest bar across
      (within half the bars' spacing), and up or down to its ends and a bit past them */
-  X.barAt = function (project, L, st, x, y) {
-    const w = X.where(project, L, st, 'xylophone'), xy = L.xylo;
+  X.barAt = function (project, L, st, x, y, frame) {
+    const w = X.where(project, L, st, 'xylophone', frame), xy = L.xylo;
     if (!w || !xy.bars.length) return null;
     const px = w.box.cx + (x - w.l.x) / w.l.s, py = w.box.cy + (y - w.l.y) / w.l.s;
     let best = null;
@@ -1020,18 +1100,20 @@
   /* one frame → SVG. For the MP4, what moves every frame (the mallet) is drawn as sprites (X.sprites) between two
      pictures that can be kept and reused (core/export.js): opt.layer
        'below'  the white page and every part under the mallet (all of them when there's no mallet)
-       'above'  the parts over it, on nothing (see-through) — null when there's no mallet */
+       'above'  the parts over it, on nothing (see-through) — null when there's no mallet
+     opt.frame  a tall screen's layout (X.frameFor): the picture is its size */
   X.scene = function (project, L, state, opt) {
-    const st = state || {}, layer = opt && opt.layer, list = plan(project, L, st);
+    const st = state || {}, layer = opt && opt.layer, frame = opt && opt.frame, list = plan(project, L, st, frame);
+    const W = frame ? frame.w : 1920, H = frame ? frame.h : 1080;
     const at = list.findIndex(x => x.p.pose);
     const parts = !layer ? list : layer === 'below' ? (at < 0 ? list : list.slice(0, at)) : at < 0 ? null : list.slice(at + 1).filter(x => !x.p.pose);
     if (!parts || (layer === 'above' && !parts.length)) return null;
-    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">' +
-      (layer === 'above' ? '' : '<rect width="1920" height="1080" fill="#FFFFFF"/>') + parts.map(x => placed(x.p, x.l, x.o)).join('') + '</svg>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '">' +
+      (layer === 'above' ? '' : '<rect width="' + W + '" height="' + H + '" fill="#FFFFFF"/>') + parts.map(x => placed(x.p, x.l, x.o)).join('') + '</svg>';
   };
   /* …and the mallet, as sprites (Studio.Render.Sprites) */
-  X.sprites = function (project, L, state) {
-    return plan(project, L, state || {}).filter(x => x.p.pose)
+  X.sprites = function (project, L, state, frame) {
+    return plan(project, L, state || {}, frame).filter(x => x.p.pose)
       .flatMap(x => malletSprites(x.p.pose, placeMatrix(x.p, x.l), x.o == null ? 1 : Math.max(0, x.o)));
   };
 })();

@@ -21,11 +21,15 @@
    Drawing: three layers on the 1920×1080 stage — the parts under the mallet (redrawn only when the
    picture changes), the mallet (every frame, it's small), the parts over it (the series' layers, as
    the MP4 makes them: X.scene(…, { layer })).
+
+   Taller than wide (a phone, a narrow embed — the user, 2026-10-18): ▶ ⏮ ⏭ go to the very top, the
+   seek line and the exercise circles to the bottom, and the stage is laid out tall to fill what's
+   between (X.frameFor: the music, the count-in, the xylophone, the name, the tracker as a row).
    ========================================================================== */
 (function () {
   'use strict';
   const S = window.Studio, X = S.series['xylophone-basics'], SND = window.XBSound;
-  const W = 1920, H = 1080;
+  let W = 1920, H = 1080;              // the stage: the video's, or a tall one (P.frame)
   const box = document.getElementById('xb');
   const ROOT = box.dataset.root || '', HERE = box.dataset.lesson || './';
   const q = new URLSearchParams(location.search);
@@ -36,6 +40,7 @@
     lesson: null, project: null, L: null, show: null, warp: null, total: 0, chapters: [],
     t: 0, playing: false, poster: true, mallet: q.get('mallet') !== 'off',
     pressed: new Map(),       // a finger, the mouse or a key → { id, down, until }
+    frame: null,              // a tall screen's layout (X.frameFor), or null: the video's 1920×1080
     buffers: { music: null, solo: null }, ready: null, music: null, hits: [], sched: 0
   };
 
@@ -53,6 +58,7 @@
   const svgIcon = (name, cls) => '<svg class="ic' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">' + ICON[name] + '</svg>';
 
   box.innerHTML =
+    '<div class="xb-top" id="xb-top" hidden></div>' +
     '<div class="xb-frame" id="xb-frame">' +
       '<div class="xb-stage" id="xb-stage">' +
         '<div class="xb-layer" id="xb-below"></div>' +
@@ -78,6 +84,9 @@
     '</div></div>';
   const $ = id => document.getElementById(id);
   const stage = $('xb-stage'), frameEl = $('xb-frame');
+  // the bar's pieces that move to the top bar when it's tall (orient)
+  $('xb-bar').querySelector('.xb-grow').id = 'xb-grow';
+  $('xb-bar').querySelector('.xb-vol').id = 'xb-volbox';
 
   /* ---- loading ---- */
   async function start() {
@@ -103,7 +112,7 @@
         if (c) { P.t = c.t; P.poster = false; }
       }
       P.posterState = poster();
-      fit(); draw(); ui();
+      orient(); ui();
       $('xb-big').hidden = false;
     } catch (e) {
       say('This lesson didn’t load (' + (e && e.message || e) + ').');
@@ -184,12 +193,12 @@
     const key = (P.mallet ? 'm' : '-') + JSON.stringify(st, still);
     if (key !== lastKey) {
       lastKey = key;
-      $('xb-below').innerHTML = X.scene(P.project, P.L, st, { layer: 'below' });
-      $('xb-above').innerHTML = X.scene(P.project, P.L, st, { layer: 'above' }) || '';
+      $('xb-below').innerHTML = X.scene(P.project, P.L, st, { layer: 'below', frame: P.frame });
+      $('xb-above').innerHTML = X.scene(P.project, P.L, st, { layer: 'above', frame: P.frame }) || '';
       placeMallet(st);
     }
     // the mallet, as the MP4 draws it: each sprite's own drawing, put where it goes
-    $('xb-mid').innerHTML = P.mallet ? X.sprites(P.project, P.L, st).map(sp => {
+    $('xb-mid').innerHTML = P.mallet ? X.sprites(P.project, P.L, st, P.frame).map(sp => {
       if (!spriteSvg.has(sp.key)) spriteSvg.set(sp.key, S.svgParts(sp.svg).inner);
       return '<g transform="matrix(' + sp.m.map(v => Math.round(v * 10000) / 10000).join(' ') + ')"' +
         (sp.alpha < 1 ? ' opacity="' + Math.max(0, sp.alpha).toFixed(3) + '"' : '') + '>' + spriteSvg.get(sp.key) + '</g>';
@@ -198,14 +207,14 @@
 
   /* the mallet button: just right of the xylophone's last bar (left of the first if there's no room), the
      middle of the bars; hidden while a screen has no xylophone, or moves to the next */
-  const MB = { size: 118, gap: 28 };
+  const MB = { size: 118, gap: 28, finger: 46 };      // finger: never smaller than this on the screen (CSS px)
   function placeMallet(st) {
-    const b = $('xb-mallet'), w = st.trans && st.trans.u > 0 ? null : X.where(P.project, P.L, st, 'xylophone');
+    const b = $('xb-mallet'), w = st.trans && st.trans.u > 0 ? null : X.where(P.project, P.L, st, 'xylophone', P.frame);
     if (!w) { b.hidden = true; return; }
-    const s = Math.max(0.6, Math.min(1, w.l.s)), size = MB.size * s, gap = MB.gap * s;
-    let x = w.x1 + gap;
+    const s = Math.max(0.6, Math.min(1, w.l.s)), size = Math.max(MB.size * s, MB.finger / (P.k || 1)), gap = MB.gap * s;
+    let x = w.x1 + gap, y = (w.y0 + w.y1) / 2 - size / 2;
     if (x + size > W - 10) x = w.x0 - gap - size;
-    const y = (w.y0 + w.y1) / 2 - size / 2;
+    if (x < 10) { x = Math.min(W - 10 - size, w.x1 - size); y = Math.max(10, w.y0 - gap - size); }    // no room either side: over its top end
     b.style.cssText = 'left:' + x.toFixed(1) + 'px;top:' + y.toFixed(1) + 'px;width:' + size.toFixed(1) + 'px;height:' + size.toFixed(1) + 'px';
     b.hidden = false;
   }
@@ -228,11 +237,38 @@
     lastKey = null; draw();
   };
 
+  /* tall or wide: taller than wide → the top and bottom bars, and a tall stage that fills the space between */
+  function orient() {
+    const tall = box.clientHeight > box.clientWidth;
+    if (tall !== P.tall) {
+      P.tall = tall;
+      box.classList.toggle('tall', tall);
+      const top = $('xb-top'), row = box.querySelector('.xb-row');
+      if (tall) { ['xb-play', 'xb-prev', 'xb-next', 'xb-grow', 'xb-time', 'xb-volbox', 'xb-full', 'xb-out'].forEach(id => top.append($(id))); top.hidden = false; }
+      else { ['xb-play', 'xb-prev', 'xb-next', 'xb-chips', 'xb-grow', 'xb-time', 'xb-volbox', 'xb-full', 'xb-out'].forEach(id => row.append($(id))); top.hidden = true; }
+    }
+    let frame = null;
+    const fw = frameEl.clientWidth, fh = frameEl.clientHeight;
+    if (tall && fw > 0 && P.L) {
+      const h = Math.round(Math.min(2600, Math.max(1080, 1080 * fh / fw)) / 20) * 20;     // steps of 20, so a small resize keeps it
+      frame = P.frame && P.frame.h === h ? P.frame : X.frameFor(P.project, P.L, 1080, h);
+    }
+    if (frame !== P.frame) {
+      P.frame = frame;
+      W = frame ? frame.w : 1920; H = frame ? frame.h : 1080;
+      stage.style.width = W + 'px'; stage.style.height = H + 'px';
+      $('xb-mid').setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      lastKey = null;
+    }
+    fit(); draw();
+  }
+
   function fit() {
     const fw = frameEl.clientWidth, fh = frameEl.clientHeight;
     const k = Math.min(fw / W, fh / H) || 0.1;
     P.k = k;
     stage.style.transform = 'translate(' + ((fw - W * k) / 2).toFixed(1) + 'px,' + ((fh - H * k) / 2).toFixed(1) + 'px) scale(' + k.toFixed(5) + ')';
+    if (P.state) placeMallet(P.state);
   }
   const stagePoint = e => { const r = stage.getBoundingClientRect(); return { x: (e.clientX - r.left) / P.k, y: (e.clientY - r.top) / P.k }; };
 
@@ -295,6 +331,7 @@
       schedule();
       if (P.t >= P.total - 1e-3) { P.t = P.total; P.stop(true); }
     }
+    if ((box.clientHeight > box.clientWidth) !== P.tall) orient();      // turned or resized without telling us
     draw(); ui(true);
     let busy = P.playing;
     P.pressed.forEach((p, k) => { if (p.down || p.until > now) busy = true; else P.pressed.delete(k); });
@@ -372,7 +409,7 @@
     // the bars: fingers, the mouse
     stage.addEventListener('pointerdown', e => {
       if (e.target.closest('button')) return;
-      const p = stagePoint(e), id = P.state && X.barAt(P.project, P.L, P.state, p.x, p.y);
+      const p = stagePoint(e), id = P.state && X.barAt(P.project, P.L, P.state, p.x, p.y, P.frame);
       if (!id) return;
       e.preventDefault();
       SND.strike(id);
@@ -421,8 +458,10 @@
     try { framed = window.self !== window.top; } catch (_) { /* a frame of another site */ }
     if (framed) { const o = $('xb-out'); o.href = location.href; o.hidden = false; }
 
-    new ResizeObserver(() => fit()).observe(frameEl);
-    window.addEventListener('resize', fit);
+    new ResizeObserver(() => orient()).observe(box);
+    window.addEventListener('resize', orient);
+    window.addEventListener('orientationchange', orient);
+    try { matchMedia('(orientation: portrait)').addEventListener('change', orient); } catch (_) { /* an old browser: resize does it */ }
   }
 
   start();
